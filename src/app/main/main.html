@@ -19,8 +19,8 @@
         </div>
         <button class="btn btn-secondary" ng-click="methods.getRandomNumber()">Get random {{qttNumbers > 1 ? 'numbers' : 'number'}}</button>
         <div class="outputs">
-          <div ng-repeat="number in randomNumbers">
-            <div class="output" id="output{{index}}">--</div>
+          <div ng-repeat="number in randomNumbers track by $index">
+            <div class="output" id="output{{index}}">{{number}}</div>
           </div>
         </div>
 
