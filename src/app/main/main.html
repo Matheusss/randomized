@@ -1,0 +1,33 @@
+<div class="" id="home">
+  <div class="container">
+    <h2>Get a random option from</h2>
+    <div class="main-buttons">
+      <button class="btn btn-primary" ng-click="choice = 'numbers'">a range of numbers</button>
+      <button class="btn btn-primary" ng-click="choice = 'options'">a set of self imputed options</button>
+    </div>
+
+    <div class="choices-container">
+      <div class="numbers" ng-if="choice === 'numbers'">
+        <div class="form">
+          <label>How many numbers will be raffled?</label>
+          <input type="number" ng-model="qttNumbers"/>
+          </br>
+          <label>It's gonna be raffled {{qttNumbers}} numbers from </label>
+          <input type="number" ng-model="numbersFrom"/>
+          <label>to </label>
+          <input type="number" ng-model="numbersTo"/>
+        </div>
+        <button class="btn btn-secondary" ng-click="methods.getRandomNumber()">Get random {{qttNumbers > 1 ? 'numbers' : 'number'}}</button>
+        <div class="outputs">
+          <div ng-repeat="number in randomNumbers">
+            <div class="output" id="output{{index}}">--</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="options" ng-if="choice === 'options'">
+        options
+      </div>
+    </div>
+  </div>
+</div>

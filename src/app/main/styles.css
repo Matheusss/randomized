@@ -1,0 +1,36 @@
+#home {
+height: 100%;
+width: 100%;
+margin-top: 50px;
+}
+
+.main-buttons {
+  margin: 20px 0 20px 0;
+}
+
+.choices-container {
+  /* margin-top: 20px; */
+}
+
+.numbers {
+
+}
+
+.options {
+
+}
+
+input[type="number"]{
+  width: 60px;
+}
+
+.output {
+  margin: 20px 20px 20px 0;
+  padding: 15px;
+  background: gray;
+  border-radius: 10px;
+  font-size: 80px;
+  /* width: 100px; */
+  color: white;
+  float: left;
+}
