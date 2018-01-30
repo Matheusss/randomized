@@ -34,3 +34,8 @@ input[type="number"]{
   color: white;
   float: left;
 }
+
+.add-word {
+  cursor: pointer;
+  /*margin-left: 10px;*/
+}

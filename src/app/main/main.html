@@ -3,21 +3,21 @@
     <h2>Get a random option from</h2>
     <div class="main-buttons">
       <button class="btn btn-primary" ng-click="choice = 'numbers'">a range of numbers</button>
-      <button class="btn btn-primary" ng-click="choice = 'options'">a set of self imputed options</button>
+      <button class="btn btn-primary" ng-click="choice = 'options'">a set of self imputed values</button>
     </div>
 
     <div class="choices-container">
-      <div class="numbers" ng-if="choice === 'numbers'">
+      <div class="numbers" ng-show="choice === 'numbers'">
         <div class="form">
           <label>How many numbers will be raffled?</label>
-          <input type="number" ng-model="qttNumbers"/>
-          </br>
-          <label>It's gonna be raffled {{qttNumbers}} numbers from </label>
-          <input type="number" ng-model="numbersFrom"/>
+          <input type="number" ng-model="numbers.qttNumbers"/>
+          <br>
+          <label>It's gonna be raffled {{numbers.qttNumbers || 0}} {{numbers.qttNumbers !== 1 ? 'numbers' : 'number'}} from </label>
+          <input type="number" ng-model="numbers.numbersFrom"/>
           <label>to </label>
-          <input type="number" ng-model="numbersTo"/>
+          <input type="number" ng-model="numbers.numbersTo"/>
         </div>
-        <button class="btn btn-secondary" ng-click="methods.getRandomNumber()">Get random {{qttNumbers > 1 ? 'numbers' : 'number'}}</button>
+        <button class="btn btn-secondary" ng-click="methods.numbers.getRandomNumber()" ng-disabled="invalidNumbers">Get random {{numbers.qttNumbers !== 1 ? 'numbers' : 'number'}}</button>
         <div class="outputs">
           <div ng-repeat="number in randomNumbers track by $index">
             <div class="output" id="output{{index}}">{{number}}</div>
@@ -25,8 +25,25 @@
         </div>
 
       </div>
-      <div class="options" ng-if="choice === 'options'">
-        options
+      <div class="options" ng-show="choice === 'options'">  
+        <label>Enter how many options you wanna raffle:</label>
+        <input type="text" ng-model="enteredOption"/>
+        <button class="btn" ng-click="methods.options.addWord()"><i class="add-word fas fa-plus-circle fa-lg"></i></button>
+        
+
+        <div class="options-inputed">
+          <label>Imputed values:</label>
+          <div ng-repeat="opt in options track by $index">
+            <div class="opt">{{opt}}
+              <button class="btn" ng-click="methods.options.removeWord($index)"><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="">
+          <button class="btn btn-secondary" ng-click="methods.options.getRandomValue()" ng-disabled="!options.length">Get random value</button>
+          <button class="btn btn-secondary" ng-click="methods.options.clear()" ng-disabled="!options.length">Clear options</button>
+        </div>
+        <div ng-if="randomValue" class="output" id="outputValue">{{randomValue}}</div>
       </div>
     </div>
   </div>

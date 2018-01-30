@@ -2,34 +2,64 @@ angular.module 'randomized'
  .controller 'MainController', ($timeout, $scope, $interval, HomeService) ->
     'ngInject'
 
-    $scope.choice       = 'numbers'
-    $scope.qttNumbers   = 5
-    $scope.numbersFrom  = 1
-    $scope.numbersTo    = 10
-    $scope.randomNumbers  = []
-    $scope.allNumbers     = [$scope.numbersFrom..$scope.numbersTo]
+    $scope.choice         = 'options'
+    $scope.methods        = 
+      numbers : {}
+      options : {}
 
-    $scope.methods =
+    # Numbers
+    $scope.numbers        =
+      qttNumbers   : undefined
+      numbersFrom  : undefined
+      numbersTo    : undefined
+    $scope.randomNumbers  = []
+    $scope.allNumbers     = undefined
+    $scope.invalidNumbers = undefined
+
+    $scope.methods.numbers =
+      containNumber: (array, number) ->
+         return if _.contains array, number then yes else no
+         
       getRandomNumber: () ->
         $scope.randomNumbers  = []
-        min                   = $scope.numbersFrom
-        max                   = $scope.numbersTo
+        $scope.allNumbers     = [$scope.numbers.numbersFrom..$scope.numbers.numbersTo]
+        min                   = $scope.numbers.numbersFrom
+        max                   = $scope.numbers.numbersTo
 
-        for i in [1..$scope.qttNumbers]
-          # randomNum = Math.floor(Math.random()*(max-min+1)+min)
+        for i in [1..$scope.numbers.qttNumbers]
           randomNum = $scope.allNumbers[Math.floor(Math.random()*$scope.allNumbers.length)]
 
-          if _.contains $scope.randomNumbers, randomNum
-            index = $scope.allNumbers.indexOf($scope.randomNumbers)
+          while $scope.methods.numbers.containNumber($scope.randomNumbers, randomNum)
+            index = $scope.allNumbers.indexOf(randomNum)
             if index > -1
-              $scope.allNumbers.splice(index, 1);
+              $scope.allNumbers.splice(index, 1)
+              randomNum = $scope.allNumbers[Math.floor(Math.random()*$scope.allNumbers.length)]
 
-            randomNum = $scope.allNumbers[Math.floor(Math.random()*$scope.allNumbers.length)]
-            $scope.randomNumbers.push randomNum
-          else
-            randomNum = $scope.allNumbers[Math.floor(Math.random()*$scope.allNumbers.length)]
-            $scope.randomNumbers.push randomNum
+          $scope.randomNumbers.push randomNum
 
-        # $scope.randomNumbers = [1,2,3,4,5,6,7,8,9,10]
+    $scope.$watch 'numbers', (newVal, oldVal) ->
+      $scope.allNumbers     = [$scope.numbers.numbersFrom..$scope.numbers.numbersTo]
+      $scope.invalidNumbers = if (newVal.qttNumbers > $scope.allNumbers.length || newVal.numbersFrom >= newVal.numbersTo) then yes else no 
+    , yes
+
+    # Options
+    $scope.options = []
+    $scope.enteredOption  = ''
+    $scope.randomValue = undefined
+
+    $scope.methods.options =
+      addWord : () ->
+        if $scope.enteredOption isnt ''
+          $scope.options.push $scope.enteredOption
+          $scope.enteredOption = undefined
+
+      removeWord : (index) ->
+        $scope.options.splice(index, 1)
+
+      clear : () ->
+        $scope.options = []
+
+      getRandomValue : () -> 
+        $scope.randomValue = $scope.options[Math.floor(Math.random()*$scope.options.length)]
 
     return
